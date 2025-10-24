@@ -1,20 +1,14 @@
-// Import React hook để quản lý state
 import { useState } from 'react';
-// Import các component cơ bản từ React Native
 import {
-  SafeAreaView, // Container an toàn cho notch
-  Switch, // Switch toggle component
-  ScrollView, // Container có thể scroll
-  StyleSheet, // API để tạo styles
-  Text, // Hiển thị text
-  View, // Container component
-  TouchableOpacity, // Button có opacity effect
+  Switch,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
 } from 'react-native';
-// Import Animatable để tạo animations
 import * as Animatable from 'react-native-animatable';
-// Import Collapsible component cho single collapsible
 import Collapsible from 'react-native-collapsible';
-// Import Accordion component cho multiple collapsibles
 import Accordion from 'react-native-collapsible/Accordion';
 
 // Mảng content cho accordion (3 sections: T&C, Privacy, Return Policy)
@@ -104,8 +98,8 @@ const CollapsibleAccordion = () => {
       >
         {/* Animatable.Text với bounceIn animation khi expand */}
         <Animatable.Text
-          animation={isActive ? 'bounceIn' : undefined} // bounceIn nếu active
-          style={{ textAlign: 'center' }} // Căn giữa text
+          animation={isActive ? 'bounceIn' : undefined}
+          style={{ textAlign: 'center' }}
         >
           {section.content}
         </Animatable.Text>
@@ -114,111 +108,107 @@ const CollapsibleAccordion = () => {
   };
 
   return (
-      // Container chính
-      <View style={styles.container}>
-        {/* ScrollView để scroll toàn bộ nội dung */}
-        <ScrollView>
-          {/* Text hiển thị title màn hình */}
-          <Text style={styles.title}>
-            Example of Collapsible/Accordion/Expandable Listview in React Native
-          </Text>
+    // Container chính
+    <View style={styles.container}>
+      {/* ScrollView để scroll toàn bộ nội dung */}
+      <ScrollView>
+        {/* Text hiển thị title màn hình */}
+        <Text style={styles.title}>
+          Example of Collapsible/Accordion/Expandable Listview in React Native
+        </Text>
 
-          {/* TouchableOpacity làm header có thể click để toggle */}
-          <TouchableOpacity onPress={toggleExpanded}>
-            <View style={styles.header}>
-              <Text style={styles.headerText}>Single Collapsible</Text>
-            </View>
-          </TouchableOpacity>
-          
-          {/* Collapsible component - single collapsible view */}
-          <Collapsible 
-            collapsed={collapsed} // Collapsed state từ useState
-            align="center" // Align content ở giữa
-          >
-            {/* Content bên trong collapsible */}
-            <View style={styles.content}>
-              <Text style={{ textAlign: 'center' }}>
-                This is a dummy text of Single Collapsible View
-              </Text>
-            </View>
-          </Collapsible>
+        {/* TouchableOpacity làm header có thể click để toggle */}
+        <TouchableOpacity onPress={toggleExpanded}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Single Collapsible</Text>
+          </View>
+        </TouchableOpacity>
 
-          {/* Divider line màu đen */}
-          <View
-            style={{
-              backgroundColor: '#000', // Màu đen
-              height: 1, // Chiều cao 1px
-              marginTop: 10, // Margin trên
-            }}
-          />
-          {/* View chứa Switch toggle cho multiple expand */}
-          <View style={styles.multipleToggle}>
-            {/* Label cho Switch */}
-            <Text style={styles.multipleToggle__title}>
-              Multiple Expand Allowed?
+        {/* Collapsible component - single collapsible view */}
+        <Collapsible collapsed={collapsed} align="center">
+          <View style={styles.content}>
+            <Text style={{ textAlign: 'center' }}>
+              This is a dummy text of Single Collapsible View
             </Text>
-            {/* Switch component để toggle multiple select */}
-            <Switch
-              value={multipleSelect} // Value từ state
-              // Handler khi switch toggle
-              onValueChange={(multipleSelect) =>
-                setMultipleSelect(multipleSelect) // Cập nhật state
-              }
-            />
           </View>
-          
-          {/* Text hướng dẫn user chọn selector */}
-          <Text style={styles.selectTitle}>
-            Please select below option to expand
+        </Collapsible>
+
+        {/* Divider line màu đen */}
+        <View
+          style={{
+            backgroundColor: '#000',
+            height: 1,
+            marginTop: 10,
+          }}
+        />
+        {/* View chứa Switch toggle cho multiple expand */}
+        <View style={styles.multipleToggle}>
+          {/* Label cho Switch */}
+          <Text style={styles.multipleToggle__title}>
+            Multiple Expand Allowed?
           </Text>
-
-          {/* View chứa các selector buttons */}
-          <View style={styles.selectors}>
-            {/* Map qua SELECTORS array và render button cho mỗi selector */}
-            {SELECTORS.map((selector) => (
-              // TouchableOpacity làm button có thể click
-              <TouchableOpacity
-                key={selector.title} // Key unique cho mỗi item
-                // Handler khi click selector, set section tương ứng
-                onPress={() => setSections([selector.value])}
-              >
-                <View style={styles.selector}>
-                  {/* Text hiển thị title selector */}
-                  <Text
-                    // Apply style bold nếu section đang active
-                    style={
-                      activeSections.includes(selector.value) &&
-                      styles.activeSelector
-                    }
-                  >
-                    {selector.title}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          {/* Accordion component cho multiple collapsibles */}
-          <Accordion
-            // Mảng indexes của sections đang active
-            activeSections={activeSections}
-            // Mảng data sections (CONTENT)
-            sections={CONTENT}
-            // Component dùng để wrap mỗi section (TouchableOpacity)
-            touchableComponent={TouchableOpacity}
-            // Cho phép expand multiple sections cùng lúc
-            expandMultiple={multipleSelect}
-            // Function render header của section
-            renderHeader={renderHeader}
-            // Function render content của section
-            renderContent={renderContent}
-            // Animation duration khi expand/collapse
-            duration={400}
-            // Handler được gọi khi active sections thay đổi
-            onChange={setSections}
+          {/* Switch component để toggle multiple select */}
+          <Switch
+            value={multipleSelect} // Value từ state
+            // Handler khi switch toggle
+            onValueChange={
+              (multipleSelect) => setMultipleSelect(multipleSelect) // Cập nhật state
+            }
           />
-        </ScrollView>
-      </View>
+        </View>
+
+        {/* Text hướng dẫn user chọn selector */}
+        <Text style={styles.selectTitle}>
+          Please select below option to expand
+        </Text>
+
+        {/* View chứa các selector buttons */}
+        <View style={styles.selectors}>
+          {/* Map qua SELECTORS array và render button cho mỗi selector */}
+          {SELECTORS.map((selector) => (
+            // TouchableOpacity làm button có thể click
+            <TouchableOpacity
+              key={selector.title} // Key unique cho mỗi item
+              // Handler khi click selector, set section tương ứng
+              onPress={() => setSections([selector.value])}
+            >
+              <View style={styles.selector}>
+                {/* Text hiển thị title selector */}
+                <Text
+                  // Apply style bold nếu section đang active
+                  style={
+                    activeSections.includes(selector.value) &&
+                    styles.activeSelector
+                  }
+                >
+                  {selector.title}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Accordion component cho multiple collapsibles */}
+        <Accordion
+          // Mảng indexes của sections đang active
+          activeSections={activeSections}
+          // Mảng data sections (CONTENT)
+          sections={CONTENT}
+          // Component dùng để wrap mỗi section (TouchableOpacity)
+          touchableComponent={TouchableOpacity}
+          // Cho phép expand multiple sections cùng lúc
+          expandMultiple={multipleSelect}
+          // Function render header của section
+          renderHeader={renderHeader}
+          // Function render content của section
+          renderContent={renderContent}
+          // Animation duration khi expand/collapse
+          duration={400}
+          // Handler được gọi khi active sections thay đổi
+          onChange={setSections}
+        />
+      </ScrollView>
+    </View>
   );
 };
 
@@ -227,75 +217,62 @@ export default CollapsibleAccordion;
 
 // StyleSheet định nghĩa các styles cho component
 const styles = StyleSheet.create({
-  // Style cho container chính
   container: {
-    flex: 1, // Chiếm full màn hình
-    backgroundColor: '#F5FCFF', // Màu nền xanh rất nhạt
-    paddingTop: 30, // Padding trên
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    paddingTop: 30,
   },
-  // Style cho title text
   title: {
-    textAlign: 'center', // Căn giữa
-    fontSize: 18, // Cỡ chữ vừa
-    fontWeight: '300', // Font weight nhẹ
-    marginBottom: 20, // Margin dưới
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '300',
+    marginBottom: 20,
   },
-  // Style cho header của collapsible/accordion
   header: {
-    backgroundColor: '#F5FCFF', // Màu nền xanh nhạt
-    padding: 10, // Padding bên trong
+    backgroundColor: '#F5FCFF',
+    padding: 10,
   },
-  // Style cho text trong header
   headerText: {
-    textAlign: 'center', // Căn giữa
-    fontSize: 16, // Cỡ chữ vừa
-    fontWeight: '500', // Font weight trung bình
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '500',
   },
-  // Style cho content của collapsible/accordion
   content: {
-    padding: 20, // Padding bên trong
-    backgroundColor: '#fff', // Màu nền trắng
+    padding: 20,
+    backgroundColor: '#fff',
   },
-  // Style cho state active (expanded)
   active: {
-    backgroundColor: 'rgba(255,255,255,1)', // Màu nền trắng
+    backgroundColor: 'rgba(255,255,255,1)',
   },
-  // Style cho state inactive (collapsed)
   inactive: {
-    backgroundColor: 'rgba(245,252,255,1)', // Màu nền xanh rất nhạt
+    backgroundColor: 'rgba(245,252,255,1)',
   },
-  // Style cho container chứa selectors
   selectors: {
-    marginBottom: 10, // Margin dưới
-    flexDirection: 'row', // Layout ngang
-    justifyContent: 'center', // Căn giữa
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  // Style cho mỗi selector button
   selector: {
-    backgroundColor: '#F5FCFF', // Màu nền xanh nhạt
-    padding: 10, // Padding bên trong
+    backgroundColor: '#F5FCFF',
+    padding: 10,
   },
-  // Style cho selector đang active
   activeSelector: {
-    fontWeight: 'bold', // Chữ đậm
+    fontWeight: 'bold',
   },
-  // Style cho select title text
   selectTitle: {
-    fontSize: 14, // Cỡ chữ nhỏ
-    fontWeight: '500', // Font weight trung bình
-    padding: 10, // Padding xung quanh
-    textAlign: 'center', // Căn giữa
+    fontSize: 14,
+    fontWeight: '500',
+    padding: 10,
+    textAlign: 'center',
   },
-  // Style cho container chứa Switch toggle
   multipleToggle: {
-    flexDirection: 'row', // Layout ngang
-    justifyContent: 'center', // Căn giữa
-    marginVertical: 30, // Margin trên dưới
-    alignItems: 'center', // Căn giữa theo chiều dọc
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 30,
+    alignItems: 'center',
   },
-  // Style cho title của Switch toggle
   multipleToggle__title: {
-    fontSize: 16, // Cỡ chữ vừa
-    marginRight: 8, // Margin phải (space với Switch)
+    fontSize: 16,
+    marginRight: 8,
   },
 });

@@ -1,19 +1,15 @@
-// Import React hooks để quản lý state và lifecycle
-import React, {useState, useEffect} from 'react';
-// Import các component cơ bản từ React Native
+import React, { useState, useEffect } from 'react';
 import {
-  SafeAreaView, // Container an toàn tránh notch/status bar
-  StyleSheet, // Tạo styles cho component
-  Text, // Hiển thị text
-  View, // Container cơ bản
-  TextInput, // Input nhập text
-  TouchableOpacity, // Button có hiệu ứng opacity khi nhấn
-  Alert, // Hiển thị dialog thông báo
-  ScrollView, // View có thể scroll
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
 } from 'react-native';
-// Import thư viện Calendar của Expo để quản lý lịch
 import * as Calendar from 'expo-calendar';
-// Import moment.js để xử lý thời gian
 import moment from 'moment';
 
 // Định nghĩa tiêu đề mặc định cho event
@@ -40,22 +36,28 @@ const AddCalendarEventScreen = () => {
   const requestCalendarPermission = async () => {
     try {
       // Gọi API xin quyền calendar và lấy status
-      const {status} = await Calendar.requestCalendarPermissionsAsync();
-      
+      const { status } = await Calendar.requestCalendarPermissionsAsync();
+
       // Kiểm tra nếu quyền được cấp
       if (status === 'granted') {
         setHasPermission(true); // Cập nhật state quyền truy cập
         // Lấy danh sách tất cả calendars có type là EVENT
-        const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+        const calendars = await Calendar.getCalendarsAsync(
+          Calendar.EntityTypes.EVENT
+        );
         console.log('Available calendars:', calendars); // Log để debug
-        
+
         // Kiểm tra có calendar nào không
         if (calendars.length > 0) {
           // Tìm calendar primary hoặc lấy calendar đầu tiên
-          const primaryCalendar = calendars.find(cal => cal.isPrimary) || calendars[0];
+          const primaryCalendar =
+            calendars.find((cal) => cal.isPrimary) || calendars[0];
           setCalendarId(primaryCalendar.id); // Lưu ID calendar
           // Hiển thị thông báo thành công
-          Alert.alert('Success', `Calendar permissions granted!\nUsing: ${primaryCalendar.title}`);
+          Alert.alert(
+            'Success',
+            `Calendar permissions granted!\nUsing: ${primaryCalendar.title}`
+          );
         } else {
           // Không tìm thấy calendar nào trên thiết bị
           Alert.alert('Warning', 'No calendars found on device');
@@ -100,15 +102,18 @@ const AddCalendarEventScreen = () => {
         notes: 'Tasty lunch event!', // Ghi chú cho event
         location: 'Restaurant XYZ', // Địa điểm tổ chức
         timeZone: 'Asia/Ho_Chi_Minh', // Múi giờ Việt Nam
-        alarms: [{ // Mảng các alarm/nhắc nhở
-          relativeOffset: -15, // Nhắc trước 15 phút
-        }],
+        alarms: [
+          {
+            // Mảng các alarm/nhắc nhở
+            relativeOffset: -15, // Nhắc trước 15 phút
+          },
+        ],
       };
 
       console.log('Creating event with:', eventDetails); // Log để debug
       // Gọi API tạo event và nhận về event ID
       const eventId = await Calendar.createEventAsync(calendarId, eventDetails);
-      
+
       setLastEventId(eventId); // Lưu ID event vừa tạo vào state
       // Hiển thị thông báo thành công với event ID
       Alert.alert(
@@ -179,7 +184,7 @@ const AddCalendarEventScreen = () => {
     try {
       // Gọi API lấy thông tin event theo ID
       const event = await Calendar.getEventAsync(eventId);
-      
+
       // Kiểm tra event có tồn tại không
       if (event) {
         // Tạo chuỗi hiển thị chi tiết event
@@ -262,7 +267,10 @@ Calendar: ${event.calendarId} // ID của calendar chứa event
             {!hasPermission && (
               <TouchableOpacity
                 style={styles.permissionButton}
-                onPress={requestCalendarPermission}> {/* Gọi hàm xin quyền khi nhấn */}
+                onPress={requestCalendarPermission}
+              >
+                {' '}
+                {/* Gọi hàm xin quyền khi nhấn */}
                 <Text style={styles.buttonTextStyle}>Request Permission</Text>
               </TouchableOpacity>
             )}
@@ -274,13 +282,18 @@ Calendar: ${event.calendarId} // ID của calendar chứa event
             <Text style={styles.heading}>
               Event title: {EVENT_TITLE}
               {'\n'} {/* Xuống dòng */}
-              Event Date Time: {moment.utc(TIME_NOW_IN_UTC).local().format('lll')} {/* Format thời gian */}
+              Event Date Time:{' '}
+              {moment.utc(TIME_NOW_IN_UTC).local().format('lll')}{' '}
+              {/* Format thời gian */}
             </Text>
             {/* Button thêm event vào calendar */}
             <TouchableOpacity
-              style={[styles.buttonStyle, {minWidth: '100%'}]} // Merge styles
+              style={[styles.buttonStyle, { minWidth: '100%' }]} // Merge styles
               onPress={addToCalendar} // Gọi hàm thêm event
-              disabled={!hasPermission || !calendarId}> {/* Disable nếu không có quyền hoặc calendar */}
+              disabled={!hasPermission || !calendarId}
+            >
+              {' '}
+              {/* Disable nếu không có quyền hoặc calendar */}
               <Text style={styles.buttonTextStyle}>Add Event to Calendar</Text>
             </TouchableOpacity>
           </View>
@@ -304,7 +317,8 @@ Calendar: ${event.calendarId} // ID của calendar chứa event
             {lastEventId && !text && (
               <TouchableOpacity
                 style={styles.useLastButton}
-                onPress={() => setText(lastEventId)}>
+                onPress={() => setText(lastEventId)}
+              >
                 <Text style={styles.useLastText}>Use Last Event ID</Text>
               </TouchableOpacity>
             )}
@@ -312,21 +326,28 @@ Calendar: ${event.calendarId} // ID của calendar chứa event
               <TouchableOpacity
                 style={styles.buttonHalfStyle}
                 onPress={() => editCalendarEvent(text || lastEventId)}
-                disabled={!hasPermission}>
+                disabled={!hasPermission}
+              >
                 <Text style={styles.buttonTextStyle}>Edit Event</Text>
               </TouchableOpacity>
-              <View style={{width: 10}} />
+              <View style={{ width: 10 }} />
               <TouchableOpacity
                 style={styles.buttonHalfStyle}
                 onPress={() => viewCalendarEvent(text || lastEventId)}
-                disabled={!hasPermission}>
+                disabled={!hasPermission}
+              >
                 <Text style={styles.buttonTextStyle}>View Event</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
-              style={[styles.buttonStyle, styles.deleteButton, {minWidth: '100%'}]}
+              style={[
+                styles.buttonStyle,
+                styles.deleteButton,
+                { minWidth: '100%' },
+              ]}
               onPress={() => deleteCalendarEvent(text || lastEventId)}
-              disabled={!hasPermission}>
+              disabled={!hasPermission}
+            >
               <Text style={styles.buttonTextStyle}>Delete Event</Text>
             </TouchableOpacity>
           </View>

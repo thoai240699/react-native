@@ -1,16 +1,12 @@
-// Import React hooks: useState quản lý state, useEffect cho lifecycle, useRef cho references
-import React, {useState, useEffect, useRef} from 'react';
-// Import các component cơ bản từ React Native
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  StyleSheet, // Tạo stylesheet cho styling
-  Text, // Component hiển thị text
-  View, // Container cơ bản
-  TouchableOpacity, // Button có hiệu ứng nhấn
-  ScrollView, // View có thể scroll
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-// Import DateTimePicker từ community package để chọn ngày/giờ
 import DateTimePicker from '@react-native-community/datetimepicker';
-// Import moment để xử lý và format thời gian
 import moment from 'moment';
 
 const DatePickerScreen = () => {
@@ -43,10 +39,12 @@ const DatePickerScreen = () => {
   // Hook chạy một lần khi component mount để calculate countdown duration
   useEffect(() => {
     // Lấy current date với UTC offset +07:00 (timezone Việt Nam)
-    let currentDate = moment().utcOffset('+07:00').format('YYYY-MM-DD HH:mm:ss');
+    let currentDate = moment()
+      .utcOffset('+07:00')
+      .format('YYYY-MM-DD HH:mm:ss');
     // Ngày expiry cố định (target date cho countdown)
     let expirydate = '2025-10-24 04:00:45';
-    
+
     // Tính duration (khoảng thời gian) giữa expiry date và current date
     let diffr = moment.duration(moment(expirydate).diff(moment(currentDate)));
     // Lấy hours, minutes, seconds từ duration
@@ -66,7 +64,7 @@ const DatePickerScreen = () => {
     if (totalDuration > 0) {
       // Tạo interval giảm totalDuration mỗi giây
       intervalRef.current = setInterval(() => {
-        setTotalDuration(prev => {
+        setTotalDuration((prev) => {
           // Nếu countdown <= 1 giây
           if (prev <= 1) {
             clearInterval(intervalRef.current); // Clear interval
@@ -92,7 +90,7 @@ const DatePickerScreen = () => {
     if (isTimerStart && timerSeconds > 0) {
       // Tạo interval giảm timerSeconds mỗi giây
       timerIntervalRef.current = setInterval(() => {
-        setTimerSeconds(prev => {
+        setTimerSeconds((prev) => {
           // Nếu timer <= 1 giây
           if (prev <= 1) {
             clearInterval(timerIntervalRef.current); // Clear interval
@@ -119,7 +117,7 @@ const DatePickerScreen = () => {
   useEffect(() => {
     if (isStopwatchStart) {
       stopwatchIntervalRef.current = setInterval(() => {
-        setStopwatchMs(prev => prev + 10);
+        setStopwatchMs((prev) => prev + 10);
       }, 10);
     } else if (!isStopwatchStart && stopwatchIntervalRef.current) {
       clearInterval(stopwatchIntervalRef.current);
@@ -166,7 +164,10 @@ const DatePickerScreen = () => {
     const mins = Math.floor(totalMs / 60000);
     const secs = Math.floor((totalMs % 60000) / 1000);
     const ms = Math.floor((totalMs % 1000) / 10);
-    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(ms).padStart(2, '0')}`;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(
+      2,
+      '0'
+    )}:${String(ms).padStart(2, '0')}`;
   };
 
   const onDateChange = (event, selectedDate) => {
@@ -231,7 +232,7 @@ const DatePickerScreen = () => {
         <Text style={styles.title}>
           React Native Date & Time Picker, CountDown Timer, Timer & Stopwatch
         </Text>
-        
+
         {/* Date & Time Picker Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Date & Time Picker</Text>
@@ -281,18 +282,18 @@ const DatePickerScreen = () => {
                 </View>
                 <Text style={styles.label}>Hours</Text>
               </View>
-              
+
               <Text style={styles.separator}>:</Text>
-              
+
               <View style={styles.timeBlock}>
                 <View style={styles.digitBox}>
                   <Text style={styles.digitText}>{countdown.minutes}</Text>
                 </View>
                 <Text style={styles.label}>Minutes</Text>
               </View>
-              
+
               <Text style={styles.separator}>:</Text>
-              
+
               <View style={styles.timeBlock}>
                 <View style={styles.digitBox}>
                   <Text style={styles.digitText}>{countdown.seconds}</Text>
@@ -316,14 +317,16 @@ const DatePickerScreen = () => {
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={styles.controlButton}
-              onPress={handleStopwatchStartStop}>
+              onPress={handleStopwatchStartStop}
+            >
               <Text style={styles.buttonText}>
                 {!isStopwatchStart ? 'START' : 'STOP'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.controlButton, styles.resetButton]}
-              onPress={handleStopwatchReset}>
+              onPress={handleStopwatchReset}
+            >
               <Text style={styles.buttonText}>RESET</Text>
             </TouchableOpacity>
           </View>
@@ -340,14 +343,16 @@ const DatePickerScreen = () => {
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={styles.controlButton}
-              onPress={handleTimerStartStop}>
+              onPress={handleTimerStartStop}
+            >
               <Text style={styles.buttonText}>
                 {!isTimerStart ? 'START' : 'STOP'}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.controlButton, styles.resetButton]}
-              onPress={handleTimerReset}>
+              onPress={handleTimerReset}
+            >
               <Text style={styles.buttonText}>RESET</Text>
             </TouchableOpacity>
           </View>
@@ -390,7 +395,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },

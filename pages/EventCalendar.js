@@ -1,21 +1,18 @@
-// Import React hook để quản lý state
-import React, {useState} from 'react';
-// Import các component cơ bản từ React Native
+import React, { useState } from 'react';
 import {
-  SafeAreaView, // Container an toàn cho các thiết bị có notch
-  StyleSheet, // API để tạo styles
-  View, // Container component
-  Text, // Hiển thị text
-  ScrollView, // Container có thể scroll
-  TouchableOpacity, // Button có opacity effect khi nhấn
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
-// Import Calendar component và LocaleConfig từ react-native-calendars
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 
 const EventCalendarScreen = () => {
   // State lưu ngày được chọn (format YYYY-MM-DD)
   const [selectedDate, setSelectedDate] = useState('2025-01-01');
-  
+
   // Object chứa events theo từng ngày (key = date, value = array of events)
   const events = {
     // Mỗi key là date string, value là array các events trong ngày đó
@@ -67,7 +64,7 @@ const EventCalendarScreen = () => {
   // Tạo object markedDates để đánh dấu các ngày có events trên calendar
   const markedDates = {};
   // Loop qua tất cả dates trong events object
-  Object.keys(events).forEach(date => {
+  Object.keys(events).forEach((date) => {
     markedDates[date] = {
       marked: true, // Hiển thị dot marker
       dotColor: '#007AFF', // Màu dot xanh
@@ -104,7 +101,7 @@ const EventCalendarScreen = () => {
       <View style={styles.container}>
         {/* Text hiển thị title màn hình */}
         <Text style={styles.title}>Calendar with Events</Text>
-        
+
         {/* Calendar component hiển thị lịch */}
         <Calendar
           // Ngày hiện tại được hiển thị trên calendar
@@ -115,35 +112,33 @@ const EventCalendarScreen = () => {
           markedDates={markedDates}
           // Theme object để custom giao diện calendar
           theme={{
-            backgroundColor: '#ffffff', // Màu nền tổng thể
-            calendarBackground: '#ffffff', // Màu nền calendar
-            textSectionTitleColor: '#b6c1cd', // Màu text header (Mon, Tue, ...)
-            selectedDayBackgroundColor: '#007AFF', // Màu nền ngày được chọn
-            selectedDayTextColor: '#ffffff', // Màu text ngày được chọn
-            todayTextColor: '#007AFF', // Màu text ngày hôm nay
-            dayTextColor: '#2d4150', // Màu text các ngày thường
-            textDisabledColor: '#d9e1e8', // Màu text các ngày disabled
-            dotColor: '#007AFF', // Màu dot marker
-            selectedDotColor: '#ffffff', // Màu dot khi ngày được chọn
-            arrowColor: '#007AFF', // Màu mũi tên prev/next month
-            monthTextColor: '#2d4150', // Màu text tháng/năm
-            indicatorColor: '#007AFF', // Màu loading indicator
-            textDayFontWeight: '300', // Font weight text ngày
-            textMonthFontWeight: 'bold', // Font weight text tháng
-            textDayHeaderFontWeight: '500', // Font weight header (Mon, Tue, ...)
-            textDayFontSize: 16, // Font size text ngày
-            textMonthFontSize: 18, // Font size text tháng
-            textDayHeaderFontSize: 14, // Font size header
+            backgroundColor: '#ffffff',
+            calendarBackground: '#ffffff',
+            textSectionTitleColor: '#b6c1cd',
+            selectedDayBackgroundColor: '#007AFF',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#007AFF',
+            dayTextColor: '#2d4150',
+            textDisabledColor: '#d9e1e8',
+            dotColor: '#007AFF',
+            selectedDotColor: '#ffffff',
+            arrowColor: '#007AFF',
+            monthTextColor: '#2d4150',
+            indicatorColor: '#007AFF',
+            textDayFontWeight: '300',
+            textMonthFontWeight: 'bold',
+            textDayHeaderFontWeight: '500',
+            textDayFontSize: 16,
+            textMonthFontSize: 18,
+            textDayHeaderFontSize: 14,
           }}
         />
 
         {/* Container chứa danh sách events */}
         <View style={styles.eventsContainer}>
           {/* Text hiển thị title của events list */}
-          <Text style={styles.eventsTitle}>
-            Events for {selectedDate}
-          </Text>
-          
+          <Text style={styles.eventsTitle}>Events for {selectedDate}</Text>
+
           {/* ScrollView để scroll danh sách events */}
           <ScrollView style={styles.eventsList}>
             {/* Kiểm tra nếu có events cho ngày được chọn */}
@@ -172,9 +167,7 @@ const EventCalendarScreen = () => {
             ) : (
               // Nếu không có events, hiển thị message "No events"
               <View style={styles.noEventsContainer}>
-                <Text style={styles.noEventsText}>
-                  No events for this date
-                </Text>
+                <Text style={styles.noEventsText}>No events for this date</Text>
               </View>
             )}
           </ScrollView>
@@ -189,90 +182,78 @@ export default EventCalendarScreen;
 
 // StyleSheet định nghĩa các styles cho component
 const styles = StyleSheet.create({
-  // Style cho container chính
   container: {
-    flex: 1, // Chiếm full màn hình
-    backgroundColor: '#f5f5f5', // Màu nền xám nhạt
+    flex: 1,
+    backgroundColor: '#f5f5f5',
   },
-  // Style cho title text
   title: {
-    fontSize: 22, // Cỡ chữ lớn
-    fontWeight: 'bold', // Chữ đậm
-    textAlign: 'center', // Căn giữa
-    paddingVertical: 15, // Padding trên dưới
-    backgroundColor: '#fff', // Màu nền trắng
-    color: '#333', // Màu text đen
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 15,
+    backgroundColor: '#fff',
+    color: '#333',
   },
-  // Style cho container chứa danh sách events
   eventsContainer: {
-    flex: 1, // Chiếm phần còn lại của màn hình
-    backgroundColor: '#fff', // Màu nền trắng
-    marginTop: 10, // Khoảng cách với calendar
-    paddingTop: 15, // Padding trên
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 10,
+    paddingTop: 15,
   },
-  // Style cho title của events list
   eventsTitle: {
-    fontSize: 18, // Cỡ chữ vừa
-    fontWeight: '600', // Chữ hơi đậm
-    paddingHorizontal: 15, // Padding trái phải
-    marginBottom: 10, // Khoảng cách với list
-    color: '#555', // Màu text xám đậm
+    fontSize: 18,
+    fontWeight: '600',
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    color: '#555',
   },
-  // Style cho ScrollView chứa events
   eventsList: {
-    flex: 1, // Chiếm phần còn lại
-    paddingHorizontal: 15, // Padding trái phải
+    flex: 1,
+    paddingHorizontal: 15,
   },
-  // Style cho mỗi event card
   eventCard: {
-    backgroundColor: '#f8f9fa', // Màu nền xám rất nhạt
-    borderRadius: 8, // Bo góc 8px
-    padding: 15, // Padding bên trong
-    marginBottom: 10, // Khoảng cách giữa các cards
-    borderLeftWidth: 4, // Border trái dày 4px
-    borderLeftColor: '#007AFF', // Màu border xanh
-    elevation: 1, // Shadow Android
-    shadowColor: '#000', // Màu shadow iOS
-    shadowOffset: {width: 0, height: 1}, // Offset shadow iOS
-    shadowOpacity: 0.1, // Độ mờ shadow iOS
-    shadowRadius: 2, // Radius shadow iOS
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#007AFF',
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
-  // Style cho header của event card (chứa title và time)
   eventHeader: {
-    flexDirection: 'row', // Layout ngang
-    justifyContent: 'space-between', // Space giữa title và time
-    alignItems: 'center', // Căn giữa theo chiều dọc
-    marginBottom: 5, // Khoảng cách với summary
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5,
   },
-  // Style cho title của event
   eventTitle: {
-    fontSize: 16, // Cỡ chữ vừa
-    fontWeight: 'bold', // Chữ đậm
-    color: '#333', // Màu text đen
-    flex: 1, // Chiếm phần còn lại (push time sang phải)
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    flex: 1,
   },
-  // Style cho time của event
   eventTime: {
-    fontSize: 14, // Cỡ chữ nhỏ hơn title
-    color: '#007AFF', // Màu text xanh
-    fontWeight: '600', // Chữ hơi đậm
+    fontSize: 14,
+    color: '#007AFF',
+    fontWeight: '600',
   },
-  // Style cho summary của event
   eventSummary: {
-    fontSize: 14, // Cỡ chữ nhỏ
-    color: '#666', // Màu text xám
-    marginTop: 5, // Khoảng cách với header
+    fontSize: 14,
+    color: '#666',
+    marginTop: 5,
   },
-  // Style cho container "No events"
   noEventsContainer: {
-    alignItems: 'center', // Căn giữa ngang
-    justifyContent: 'center', // Căn giữa dọc
-    paddingVertical: 40, // Padding trên dưới
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 40,
   },
-  // Style cho text "No events"
   noEventsText: {
-    fontSize: 16, // Cỡ chữ vừa
-    color: '#999', // Màu text xám nhạt
-    fontStyle: 'italic', // Chữ nghiêng
+    fontSize: 16,
+    color: '#999',
+    fontStyle: 'italic',
   },
 });

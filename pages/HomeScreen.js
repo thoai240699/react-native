@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Mybutton from './components/Mybutton';
 import Mytext from './components/Mytext';
 import * as SQLite from 'expo-sqlite';
@@ -19,6 +19,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
+    <ScrollView>
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ flex: 1 }}>
         <Mytext text="Demo" />
@@ -78,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
     </View>
+    </ScrollView>
   );
-};
-
+}
 export default HomeScreen;

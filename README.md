@@ -1,1 +1,2 @@
-"# react-native" 
+npm install
+npm run android

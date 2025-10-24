@@ -1,19 +1,14 @@
-// Example of Searchable Dropdown / Picker in React Native
-// https://aboutreact.com/example-of-searchable-dropdown-picker-in-react-native/
-
-// import React in our code
+// Import React hooks để quản lý state và lifecycle
 import React, {useState, useEffect} from 'react';
-
-// import all the components we are going to use
+// Import các component cơ bản từ React Native
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-
-// import SearchableDropdown component
+// Import component SearchableDropdown cho dropdown có search
 import SearchableDropdown from 'react-native-searchable-dropdown';
 
-// Item array for the dropdown
+// Mảng dữ liệu tĩnh cho dropdown đầu tiên (danh sách social networks)
+// Mỗi item phải có 'name' property để SearchableDropdown hiển thị
 const items = [
-  // name key is must. It is to show the text in front
-  {id: 1, name: 'angellist'},
+  {id: 1, name: 'angellist'}, // ID unique và tên để hiển thị
   {id: 2, name: 'codepen'},
   {id: 3, name: 'envelope'},
   {id: 4, name: 'etsy'},
@@ -26,139 +21,155 @@ const items = [
 ];
 
 const SearchableDropdownScreen = () => {
-  // Data Source for the SearchableDropdown
+  // State lưu dữ liệu động được fetch từ server (danh sách books)
   const [serverData, setServerData] = useState([]);
 
+  // Hook chạy một lần khi component mount để fetch data từ API
   useEffect(() => {
+    // Gọi API để lấy danh sách books
     fetch('https://68f48234b16eb6f46834baaf.mockapi.io/api/v1/bookstore')
-      .then((response) => response.json())
+      .then((response) => response.json()) // Parse response thành JSON
       .then((data) => {
-        // Transform API data to match SearchableDropdown format
+        // Transform data để phù hợp với format của SearchableDropdown
+        // Lấy booksName và map thành 'name' property
         const mappedData = data.map(book => ({
-          name: book.booksName, // 'name' is required by SearchableDropdown
+          name: book.booksName, // SearchableDropdown yêu cầu property 'name'
         }));
-        setServerData(mappedData);
+        setServerData(mappedData); // Cập nhật state với data đã transform
       })
       .catch((error) => {
-        console.error(error);
-        setServerData([]); // Set empty array on error
+        // Bắt lỗi nếu fetch thất bại
+        console.error(error); // Log error để debug
+        setServerData([]); // Set empty array nếu lỗi
       });
-  }, []);
+  }, []); // Dependency array rỗng = chỉ chạy 1 lần khi mount
 
   return (
+      // Container chính chứa toàn bộ nội dung
       <View style={styles.container}>
+        {/* Text hiển thị tiêu đề chính của màn hình */}
         <Text style={styles.titleText}>
           Example of Searchable Dropdown / Picker in React Native
         </Text>
+        
+        {/* Text hiển thị heading cho dropdown đầu tiên */}
         <Text style={styles.headingText}>
           Searchable Dropdown from Static Array
         </Text>
+        
+        {/* SearchableDropdown component thứ nhất - sử dụng data tĩnh từ items array */}
         <SearchableDropdown
-          onTextChange={(text) => console.log(text)}
-          // Listner on the searchable input
-          onItemSelect={(item) => alert(JSON.stringify(item))}
-          // Called after the selection
+          // Handler được gọi khi user gõ text vào search box
+          onTextChange={(text) => console.log(text)} // Log text để debug
+          // Handler được gọi khi user chọn một item từ dropdown
+          onItemSelect={(item) => alert(JSON.stringify(item))} // Alert hiển thị item đã chọn
+          // Style cho container bọc dropdown
           containerStyle={{padding: 5}}
-          // Suggestion container style
+          // Style cho TextInput (ô search)
           textInputStyle={{
-            // Inserted text style
-            padding: 12,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            backgroundColor: '#FAF7F6',
+            padding: 12, // Padding bên trong
+            borderWidth: 1, // Border 1px
+            borderColor: '#ccc', // Màu border xám nhạt
+            backgroundColor: '#FAF7F6', // Màu nền trắng ngà
           }}
+          // Style cho mỗi item trong dropdown list
           itemStyle={{
-            // Single dropdown item style
-            padding: 10,
-            marginTop: 2,
-            backgroundColor: '#FAF9F8',
-            borderColor: '#bbb',
-            borderWidth: 1,
+            padding: 10, // Padding cho item
+            marginTop: 2, // Khoảng cách giữa các items
+            backgroundColor: '#FAF9F8', // Màu nền item
+            borderColor: '#bbb', // Màu border
+            borderWidth: 1, // Border 1px
           }}
+          // Style cho text của item
           itemTextStyle={{
-            // Text style of a single dropdown item
-            color: '#222',
+            color: '#222', // Màu text đen nhạt
           }}
+          // Style cho container chứa list items
           itemsContainerStyle={{
-            // Items container style you can pass maxHeight
-            // To restrict the items dropdown hieght
-            maxHeight: '60%',
+            maxHeight: '60%', // Giới hạn chiều cao tối đa 60% màn hình
           }}
-          items={items}
-          // Mapping of item array
+          // Mảng data để hiển thị trong dropdown
+          items={items} // Sử dụng mảng items tĩnh
+          // Index của item được chọn mặc định (2 = 'envelope')
           defaultIndex={2}
-          // Default selected item index
+          // Placeholder text hiển thị khi chưa chọn gì
           placeholder="placeholder"
-          // place holder for the search input
+          // Reset value sau khi chọn (false = giữ value đã chọn)
           resPtValue={false}
-          // Reset textInput Value with true and false state
+          // Ẩn underline của TextInput trên Android
           underlineColorAndroid="transparent"
-          // To remove the underline from the android input
         />
+        {/* Text hiển thị heading cho dropdown thứ hai */}
         <Text style={styles.headingText}>
           Searchable Dropdown from Dynamic Array from Server
         </Text>
+        
+        {/* SearchableDropdown component thứ hai - sử dụng data động từ server */}
         <SearchableDropdown
-          onTextChange={(text) => console.log(text)}
-          // Change listner on the searchable input
-          onItemSelect={(item) => alert(JSON.stringify(item))}
-          // Called after the selection from the dropdown
+          // Handler được gọi khi user gõ text vào search box
+          onTextChange={(text) => console.log(text)} // Log text để debug
+          // Handler được gọi khi user chọn một item từ dropdown
+          onItemSelect={(item) => alert(JSON.stringify(item))} // Alert hiển thị item đã chọn
+          // Style cho container bọc dropdown
           containerStyle={{padding: 5}}
-          // Suggestion container style
+          // Style cho TextInput (ô search)
           textInputStyle={{
-            // Inserted text style
-            padding: 12,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            backgroundColor: '#FAF7F6',
+            padding: 12, // Padding bên trong
+            borderWidth: 1, // Border 1px
+            borderColor: '#ccc', // Màu border xám nhạt
+            backgroundColor: '#FAF7F6', // Màu nền trắng ngà
           }}
+          // Style cho mỗi item trong dropdown list
           itemStyle={{
-            // Single dropdown item style
-            padding: 10,
-            marginTop: 2,
-            backgroundColor: '#FAF9F8',
-            borderColor: '#bbb',
-            borderWidth: 1,
+            padding: 10, // Padding cho item
+            marginTop: 2, // Khoảng cách giữa các items
+            backgroundColor: '#FAF9F8', // Màu nền item
+            borderColor: '#bbb', // Màu border
+            borderWidth: 1, // Border 1px
           }}
+          // Style cho text của item
           itemTextStyle={{
-            // Text style of a single dropdown item
-            color: '#222',
+            color: '#222', // Màu text đen nhạt
           }}
+          // Style cho container chứa list items
           itemsContainerStyle={{
-            // Items container style you can pass maxHeight
-            // To restrict the items dropdown hieght
-            maxHeight: '50%',
+            maxHeight: '50%', // Giới hạn chiều cao tối đa 50% màn hình
           }}
-          items={serverData}
-          // Mapping of item array
+          // Mảng data để hiển thị trong dropdown (từ server)
+          items={serverData} // Sử dụng state serverData được fetch từ API
+          // Index của item được chọn mặc định
           defaultIndex={2}
-          // Default selected item index
+          // Placeholder text hiển thị khi chưa chọn gì
           placeholder="placeholder"
-          // Place holder for the search input
+          // Reset value sau khi chọn (false = giữ value đã chọn)
           resetValue={false}
-          // Reset textInput Value with true and false state
+          // Ẩn underline của TextInput trên Android
           underlineColorAndroid="transparent"
-          // To remove the underline from the android input
         />
       </View>
   );
 };
 
+// Export component để sử dụng ở nơi khác
 export default SearchableDropdownScreen;
 
+// StyleSheet định nghĩa các styles cho component
 const styles = StyleSheet.create({
+  // Style cho container chính
   container: {
-    flex: 1,
-    backgroundColor: 'white',
-    padding: 10,
+    flex: 1, // Chiếm full màn hình
+    backgroundColor: 'white', // Màu nền trắng
+    padding: 10, // Padding xung quanh
   },
+  // Style cho title text chính
   titleText: {
-    padding: 8,
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    padding: 8, // Padding xung quanh text
+    fontSize: 16, // Cỡ chữ 16
+    textAlign: 'center', // Căn giữa
+    fontWeight: 'bold', // Chữ đậm
   },
+  // Style cho heading text của mỗi dropdown
   headingText: {
-    padding: 8,
+    padding: 8, // Padding xung quanh text
   },
 });

@@ -1,101 +1,121 @@
-// React Native Date Picker – To Pick the Date using Native Calendar
-// https://aboutreact.com/react-native-datepicker/
-
-// import React in our code
+// Import React hooks: useState quản lý state, useEffect cho lifecycle, useRef cho references
 import React, {useState, useEffect, useRef} from 'react';
-
-// import all the components we are going to use
+// Import các component cơ bản từ React Native
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
+  StyleSheet, // Tạo stylesheet cho styling
+  Text, // Component hiển thị text
+  View, // Container cơ bản
+  TouchableOpacity, // Button có hiệu ứng nhấn
+  ScrollView, // View có thể scroll
 } from 'react-native';
-
-//import DatePicker from the package we installed
+// Import DateTimePicker từ community package để chọn ngày/giờ
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+// Import moment để xử lý và format thời gian
 import moment from 'moment';
 
 const DatePickerScreen = () => {
+  // State lưu ngày được chọn, mặc định là 24/10/2025
   const [date, setDate] = useState(new Date('2025-10-24'));
+  // State lưu giờ được chọn, mặc định là thời gian hiện tại
   const [time, setTime] = useState(new Date());
+  // State kiểm soát việc hiển thị date picker
   const [showDate, setShowDate] = useState(false);
+  // State kiểm soát việc hiển thị time picker
   const [showTime, setShowTime] = useState(false);
+  // State lưu tổng thời gian countdown tính bằng giây
   const [totalDuration, setTotalDuration] = useState(0);
+  // useRef để lưu interval ID của countdown, không trigger re-render
   const intervalRef = useRef(null);
 
-  // Timer and Stopwatch states
+  // State kiểm soát timer có đang chạy không
   const [isTimerStart, setIsTimerStart] = useState(false);
+  // State kiểm soát stopwatch có đang chạy không
   const [isStopwatchStart, setIsStopwatchStart] = useState(false);
+  // State lưu số giây còn lại của timer (mặc định 90 giây)
   const [timerSeconds, setTimerSeconds] = useState(90);
+  // State lưu milliseconds của stopwatch
   const [stopwatchMs, setStopwatchMs] = useState(0);
+  // useRef lưu interval ID của timer
   const timerIntervalRef = useRef(null);
+  // useRef lưu interval ID của stopwatch
   const stopwatchIntervalRef = useRef(null);
 
+  // Hook chạy một lần khi component mount để calculate countdown duration
   useEffect(() => {
-    // Countdown timer for a given expiry date-time
+    // Lấy current date với UTC offset +07:00 (timezone Việt Nam)
     let currentDate = moment().utcOffset('+07:00').format('YYYY-MM-DD HH:mm:ss');
+    // Ngày expiry cố định (target date cho countdown)
     let expirydate = '2025-10-24 04:00:45';
     
+    // Tính duration (khoảng thời gian) giữa expiry date và current date
     let diffr = moment.duration(moment(expirydate).diff(moment(currentDate)));
-    var hours = parseInt(diffr.asHours());
-    var minutes = parseInt(diffr.minutes());
-    var seconds = parseInt(diffr.seconds());
+    // Lấy hours, minutes, seconds từ duration
+    var hours = parseInt(diffr.asHours()); // Tổng số giờ
+    var minutes = parseInt(diffr.minutes()); // Phút còn lại (0-59)
+    var seconds = parseInt(diffr.seconds()); // Giây còn lại (0-59)
 
+    // Convert tất cả về seconds (total duration)
     var d = hours * 60 * 60 + minutes * 60 + seconds;
+    // Set total duration, nếu âm thì set 0 (đã hết hạn)
     setTotalDuration(Math.max(0, d));
-  }, []);
+  }, []); // Dependency rỗng = chỉ chạy 1 lần khi mount
 
-  // Countdown interval
+  // Hook start countdown interval khi totalDuration > 0
   useEffect(() => {
+    // Chỉ start interval nếu total duration còn lớn hơn 0
     if (totalDuration > 0) {
+      // Tạo interval giảm totalDuration mỗi giây
       intervalRef.current = setInterval(() => {
         setTotalDuration(prev => {
+          // Nếu countdown <= 1 giây
           if (prev <= 1) {
-            clearInterval(intervalRef.current);
-            alert('Countdown finished!');
-            return 0;
+            clearInterval(intervalRef.current); // Clear interval
+            alert('Countdown finished!'); // Alert thông báo countdown xong
+            return 0; // Set về 0
           }
-          return prev - 1;
+          return prev - 1; // Giảm 1 giây
         });
-      }, 1000);
+      }, 1000); // Chạy mỗi 1000ms (1 giây)
     }
 
+    // Cleanup function khi component unmount hoặc totalDuration thay đổi
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearInterval(intervalRef.current); // Clear interval để tránh memory leak
       }
     };
-  }, [totalDuration]);
+  }, [totalDuration]); // Chạy lại khi totalDuration thay đổi
 
-  // Timer interval (countdown from 90 seconds)
+  // Hook quản lý timer interval
   useEffect(() => {
+    // Nếu timer đang chạy và còn time
     if (isTimerStart && timerSeconds > 0) {
+      // Tạo interval giảm timerSeconds mỗi giây
       timerIntervalRef.current = setInterval(() => {
         setTimerSeconds(prev => {
+          // Nếu timer <= 1 giây
           if (prev <= 1) {
-            clearInterval(timerIntervalRef.current);
-            setIsTimerStart(false);
-            alert('Timer Completed!');
-            return 0;
+            clearInterval(timerIntervalRef.current); // Clear interval
+            setIsTimerStart(false); // Stop timer
+            alert('Timer Completed!'); // Alert thông báo timer xong
+            return 0; // Set về 0
           }
-          return prev - 1;
+          return prev - 1; // Giảm 1 giây
         });
-      }, 1000);
+      }, 1000); // Chạy mỗi 1000ms (1 giây)
     } else if (!isTimerStart && timerIntervalRef.current) {
+      // Nếu timer bị stop, clear interval
       clearInterval(timerIntervalRef.current);
     }
 
+    // Cleanup function khi component unmount hoặc dependencies thay đổi
     return () => {
       if (timerIntervalRef.current) {
-        clearInterval(timerIntervalRef.current);
+        clearInterval(timerIntervalRef.current); // Clear interval để tránh memory leak
       }
     };
-  }, [isTimerStart, timerSeconds]);
+  }, [isTimerStart, timerSeconds]); // Chạy lại khi isTimerStart hoặc timerSeconds thay đổi
 
-  // Stopwatch interval (counts up with milliseconds)
   useEffect(() => {
     if (isStopwatchStart) {
       stopwatchIntervalRef.current = setInterval(() => {

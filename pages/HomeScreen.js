@@ -27,6 +27,32 @@ const HomeScreen = ({ navigation }) => {
           customClick={() => navigation.navigate('CollapsibleAccordion')}
         />
         <Mybutton
+          title="SearchableDropdown"
+          customClick={() => navigation.navigate('SearchableDropdown')}
+        />
+        <Mybutton
+          title="MultiSelect"
+          customClick={() => navigation.navigate('MultiSelect')}
+        />
+       <Mybutton
+          title="DatePicker"
+          customClick={() => navigation.navigate('DatePicker')}
+        />
+        <Mybutton
+          title="CalendarPicker"
+          customClick={() => navigation.navigate('CalendarPicker')}
+        />
+         <Mybutton
+          title="EventCalendar"
+          customClick={() => navigation.navigate('EventCalendar')}
+        />
+         <Mybutton
+          title="AddCalendarEvent"
+          customClick={() => navigation.navigate('AddCalendarEvent')}
+        />
+
+        <Mytext text="Demo sqlite" />
+        <Mybutton
           title="Register"
           customClick={() => navigation.navigate('Register')}
         />

@@ -8,7 +8,12 @@ import ViewUser from './pages/ViewUser';
 import ViewAllUser from './pages/ViewAllUser';
 import DeleteUser from './pages/DeleteUser';
 import CollapsibleAccordion from './pages/CollapsibleAccordion'
-
+import SearchableDropdownScreen from './pages/SearchableDropdown'
+import MultiSelectScreen from './pages/MultiSelect'
+import DatePickerScreen from './pages/DatePicker'
+import CalendarPickerScreen from './pages/CalendarPicker'
+import EventCalendarScreen from './pages/EventCalendar'
+import AddCalendarEventScreen from './pages/AddCalendarEvent'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -21,7 +26,7 @@ const App = () => {
           options={{
             title: 'Home',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -35,7 +40,91 @@ const App = () => {
           options={{
             title: 'CollapsibleAccordion',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />          
+        <Stack.Screen
+          name="SearchableDropdown"
+          component={SearchableDropdownScreen}
+          options={{
+            title: 'SearchableDropdown',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="MultiSelect"
+          component={MultiSelectScreen}
+          options={{
+            title: 'MultiSelect',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="DatePicker"
+          component={DatePickerScreen}
+          options={{
+            title: 'DatePicker',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="CalendarPicker"
+          component={CalendarPickerScreen}
+          options={{
+            title: 'CalendarPicker',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="EventCalendar"
+          component={EventCalendarScreen}
+          options={{
+            title: 'EventCalendar',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="AddCalendarEvent"
+          component={AddCalendarEventScreen}
+          options={{
+            title: 'AddCalendarEvent',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -49,7 +138,7 @@ const App = () => {
           options={{
             title: 'View User',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -63,7 +152,7 @@ const App = () => {
           options={{
             title: 'View Users',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -77,7 +166,7 @@ const App = () => {
           options={{
             title: 'Update User',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -91,7 +180,7 @@ const App = () => {
           options={{
             title: 'Register User',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -105,7 +194,7 @@ const App = () => {
           options={{
             title: 'Delete User',
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#06b4f8',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {

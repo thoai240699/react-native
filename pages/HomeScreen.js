@@ -23,6 +23,10 @@ const HomeScreen = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         <Mytext text="Demo" />
         <Mybutton
+          title="TreeView"
+          customClick={() => navigation.navigate('TreeView')}
+        />
+        <Mybutton
           title="CollapsibleAccordion"
           customClick={() => navigation.navigate('CollapsibleAccordion')}
         />
@@ -34,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
           title="MultiSelect"
           customClick={() => navigation.navigate('MultiSelect')}
         />
-       <Mybutton
+        <Mybutton
           title="DatePicker"
           customClick={() => navigation.navigate('DatePicker')}
         />
@@ -42,11 +46,11 @@ const HomeScreen = ({ navigation }) => {
           title="CalendarPicker"
           customClick={() => navigation.navigate('CalendarPicker')}
         />
-         <Mybutton
+        <Mybutton
           title="EventCalendar"
           customClick={() => navigation.navigate('EventCalendar')}
         />
-         <Mybutton
+        <Mybutton
           title="AddCalendarEvent"
           customClick={() => navigation.navigate('AddCalendarEvent')}
         />

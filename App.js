@@ -14,6 +14,8 @@ import DatePickerScreen from './pages/DatePicker'
 import CalendarPickerScreen from './pages/CalendarPicker'
 import EventCalendarScreen from './pages/EventCalendar'
 import AddCalendarEventScreen from './pages/AddCalendarEvent'
+import TreeView from './pages/TreeView'
+
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -34,6 +36,20 @@ const App = () => {
             },
           }}
         />
+        <Stack.Screen
+          name="TreeView"
+          component={TreeView}
+          options={{
+            title: 'TreeView',
+            headerStyle: {
+              backgroundColor: '#06b4f8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />  
           <Stack.Screen
           name="CollapsibleAccordion"
           component={CollapsibleAccordion}
